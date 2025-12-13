@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMAC Encoder 🧊</title>
+    <style>
+        /* ==================================== */
+        /* === 1. STYLE GLOBAL ET GLASSDESIGN === */
+        /* ==================================== */
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #a8c0ff, #3f2b96);
+            /* Fond liquide/dégradé */
+            color: #ffffff;
+        }
+        
+        .glass-container {
+            background: rgba(255, 255, 255, 0.15);
+            /* Transparence pour l'effet de verre */
+            backdrop-filter: blur(10px);
+            /* L'effet Glassmorphism clé */
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            /* Bordure légère */
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            /* Ombre pour la profondeur */
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #ffffff;
+            font-weight: 300;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        /* ==================================== */
+        /* === 2. STYLE DES ÉLÉMENTS UI === */
+        /* ==================================== */
+        
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        label {
+            font-size: 1.1em;
+            margin-right: 15px;
+            white-space: nowrap;
+        }
+        
+        #audioFile {
+            flex-grow: 1;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+        }
+        
+        button {
+            background: linear-gradient(90deg, #6a82fb, #fc5c7d);
+            /* Bouton dégradé */
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        button:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        #status {
+            margin-top: 25px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            font-size: 0.9em;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="glass-container">
+        <h1>MMAC Lossless Encoder 🧊</h1>
+
+        <div class="input-group">
+            <label for="audioFile">Fichier WAV:</label>
+            <input type="file" id="audioFile" accept=".wav">
+        </div>
+
+        <button onclick="startEncoding()" id="encodeButton">
+            LANCER L'ENCODAGE (WASM)
+        </button>
+
+        <p id="status">Statut: Prêt.</p>
+    </div>
+
+    <script>
+        // ====================================
+        // === 3. LOGIQUE JAVASCRIPT / WASM STUB ===
+        // ====================================
+
+        const statusElement = document.getElementById('status');
+        const encodeButton = document.getElementById('encodeButton');
+        const audioFile = document.getElementById('audioFile');
+
+        // --- STUB WebAssembly (SIMULATION du code C compilé) ---
+        // Dans une vraie application, ce code serait généré par Emscripten
+        // et contiendrait vos fonctions C: calculate_residual, rice_encode, etc.
+        const MMAC_WASM = {
+            isLoaded: true, // Simuler le chargement réussi
+            encode: (buffer) => {
+                // Cette fonction simule l'encodage C/Wasm :
+                // 1. Découpe en blocs de 4096 échantillons.
+                // 2. Calcule LPC, résidus, Codage de Rice.
+                // 3. Retourne le nouveau buffer compressé.
+
+                // Simuler un taux de compression de 2:1 (typique pour le lossless)
+                const compressedSize = Math.floor(buffer.length / 2);
+
+                // Créer un buffer MMAC simulé (En-tête + Données)
+                const mmacBuffer = new Uint8Array(compressedSize);
+
+                // Placer une fausse signature 'MMAC'
+                mmacBuffer.set([77, 77, 65, 67], 0);
+
+                return mmacBuffer;
+            }
+        };
+
+        function startEncoding() {
+            const file = audioFile.files[0];
+
+            if (!file) {
+                statusElement.textContent = "Erreur: Veuillez sélectionner un fichier WAV à encoder.";
+                return;
+            }
+
+            if (!MMAC_WASM.isLoaded) {
+                statusElement.textContent = "Erreur: Le module WebAssembly MMAC n'est pas chargé.";
+                return;
+            }
+
+            encodeButton.disabled = true;
+            statusElement.textContent = `Démarrage de l'encodage de "${file.name}"...`;
+
+            // Lire le fichier en tant que ArrayBuffer (tableau d'octets bruts)
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const audioBuffer = new Uint8Array(event.target.result);
+                statusElement.textContent = `Lecture terminée. Taille: ${(audioBuffer.length / 1024).toFixed(2)} KB. Enc...`;
+
+                try {
+                    // --- APPEL WASM SIMULÉ ---
+                    const start = performance.now();
+                    const mmacBuffer = MMAC_WASM.encode(audioBuffer);
+                    const end = performance.now();
+
+                    const ratio = (mmacBuffer.length / audioBuffer.length) * 100;
+
+                    statusElement.innerHTML = `✅ Encodage réussi en ${(end - start).toFixed(2)} ms.<br>`;
+                    statusElement.innerHTML += `Taille MMAC: ${(mmacBuffer.length / 1024).toFixed(2)} KB (${ratio.toFixed(2)}% de l'original).`;
+
+                    // Lancer le téléchargement du fichier MMAC
+                    downloadMMAC(mmacBuffer, file.name.replace(".wav", ".mmac"));
+
+                } catch (e) {
+                    statusElement.textContent = `❌ Échec de l'encodage Wasm: ${e.message}`;
+                } finally {
+                    encodeButton.disabled = false;
+                }
+            };
+
+            reader.onerror = () => {
+                statusElement.textContent = "Erreur de lecture du fichier.";
+                encodeButton.disabled = false;
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+
+        function downloadMMAC(buffer, filename) {
+            const blob = new Blob([buffer], {
+                type: 'application/octet-stream'
+            });
+            const url = URL.createObjectURL(blob);
+
+            // Créer un lien temporaire pour le téléchargement
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+
+</body>
+
+</html>

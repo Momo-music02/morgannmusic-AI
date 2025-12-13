@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morgann Music AI</title>
+    <meta property="og:image" content="https://music.morgannmusic.uk/ban%20mmAI.jpg">
+    <meta property="og:description" content="L’intelligence au service de ton imagination.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuMGFYw5U/yKzI5ZqD5v/e10z1x6+3Rz4m0S9K0P8v6C5w==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16 .png">
+    <link rel="icon" type="image/ico" sizes="48x48" href="/favicon .ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="navbar" id="navbar">
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.png" alt="Logo Morgann Music" />
+                </a>
+            </div>
+            <!-- Bouton Menu Hamburger -->
+            <button class="menu-toggle" id="menu-toggle">☰</button>
+            <ul id="nav-links">
+                <!-- MODIFIEZ CES LIENS pour votre nouveau site -->
+                <li><a href="index.html">Menu</a></li>
+                <li><a href="download.html">Télécharger</a></li>
+                <li><a href="ia.html">IA</a></li>
+                <li><a href="https://app.morgannmusic.uk">Site Principal</a></li>
+
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>
+            <stong>🪄 L’intelligence au service de ta créativité</strong>
+        </h2>
+        <p class="intro">
+            <strong>Morgann Music AI</strong> repense la façon dont tu crées. Ce n’est pas juste une <strong>IA</strong> : c’est ton nouveau partenaire d’inspiration. Dis-lui une idée, une émotion, une ambiance — il te répond en mots, ou en concepts.
+            Instantanément. Naturellement.
+        </p>
+
+        <h1>🎧 Pensé pour vous. Conçu pour tous.</h1>
+
+        <p>Que tu sois producteur, compositeur ou simplement curieux, Morgann Music AI t’aide à aller plus loin. Trouve le son juste, affine ton mix, découvre de nouvelles idées. Tout commence par une simple phrase.
+
+        </p>
+
+        <div class="simple-separator"></div>
+
+
+        <h1>💡 Inspire. Crée. Réinvente.
+        </h1>
+
+        <p>Chaque idée mérite d’être entendue. Morgann Music AI te donne les moyens de la transformer en réalité. De la première note à la version finale, laisse-toi guider par une intelligence créative à ton rythme.
+
+        </p>
+
+        <div class="simple-separator"></div>
+
+
+        <p>🚀 La version <strong>2</strong>.0.<strong>2</strong></p>
+
+        <div class="row">
+            <a href="ia.html">
+                <button class="btn">Acceder sur le web</button>
+
+            </a>
+
+
+
+
+
+    </main>
+</body>
+
+<script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // Script pour le menu hamburger
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+
+    // Nous utilisons un seul écouteur d'événement pour le basculement
+    menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+</script>
+
+</html>

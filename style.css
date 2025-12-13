@@ -1,0 +1,356 @@
+:root {
+    --bg1: #59DAF5;
+    --bg2: #30b3c5;
+}
+
+@media (prefers-color-scheme: dark) {
+     :root {
+        --bg1: #227282;
+        --bg2: #0e4951;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background-image: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg1) 100%);
+    background-color: var(--bg1);
+    /* ✅ Fond uniforme */
+    color: #0b1220;
+    line-height: 1.6;
+}
+
+.simple-separator {
+    height: 0.5px;
+    /* Épaisseur de la barre */
+    background-color: #15849fd4;
+    /* Couleur grise neutre et unie */
+    margin: 50px auto;
+    /* 50px de marge verticale, 'auto' pour centrer horizontalement */
+    width: 90%;
+    /* La barre prendra 70% de la largeur de la page */
+    max-width: 1200px;
+    /* Empêche la barre d'être trop large sur de très grands écrans */
+    min-width: 200px;
+    /* Empêche la barre d'être trop petite sur de petits écrans */
+    border-radius: 2px;
+    /* Un léger arrondi aux coins */
+    /* J'ai retiré toutes les propriétés liées au texte, dégradé, flexbox, et ombre prononcée. */
+}
+
+
+/* ===== NAVBAR ===== */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent;
+    backdrop-filter: blur(10px);
+    transition: 0.5s all;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.navbar:hover {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.567);
+    border-top-left-radius: 0;
+    /* Coin supérieur gauche */
+}
+
+.navbar.scrolled {
+    background: var(--nbscr);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.567);
+    border-top-left-radius: 0;
+    /* Coin supérieur gauche */
+    border-top-right-radius: 0;
+    /* Coin supérieur droit */
+    border-bottom-left-radius: 45px;
+    /* Coin inférieur gauche arrondi */
+    border-bottom-right-radius: 45px;
+}
+
+.navbar.scrolled:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.567);
+    border-top-left-radius: 0;
+    /* Coin supérieur gauche */
+    border-top-right-radius: 0;
+    /* Coin supérieur droit */
+    border-bottom-left-radius: 15px;
+    /* Coin inférieur gauche arrondi */
+    border-bottom-right-radius: 15px;
+}
+
+.navbar nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+}
+
+.navbar .logo img {
+    height: 40px;
+    width: auto;
+    user-select: none;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: #000000;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.navbar ul li a:hover {
+    opacity: 0.7;
+}
+
+.navbar .menu-toggle {
+    display: none;
+    font-size: 1.8em;
+    background: none;
+    border: none;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .navbar .menu-toggle {
+        display: block;
+        /* FIX: Assure que le bouton est visible sur mobile */
+        position: relative;
+        z-index: 9999;
+        color: var(--text-color3);
+        /* Assure que le bouton est au-dessus de tout pour être cliquable */
+    }
+    .navbar ul {
+        /* Menu mobile réduit sur le côté */
+        position: absolute;
+        top: 65px;
+        right: 0;
+        width: 200px;
+        /* Largeur réduite pour le menu latéral */
+        background: rgb(36, 152, 202);
+        color: #992a99;
+        /* J'ai gardé votre couleur ajustée */
+        flex-direction: column;
+        align-items: flex-start;
+        backdrop-filter: blur(10px);
+        padding: 15px;
+        /* STRATÉGIE pour la visibilité et éviter le blocage des clics */
+        display: flex;
+        visibility: hidden;
+        /* Cache le menu */
+        pointer-events: none;
+        /* TRÈS IMPORTANT: Empêche le menu masqué de bloquer le clic sur le bouton */
+        border-radius: 0 0 0 25px;
+        /* J'ai gardé votre rayon de bordure ajusté */
+        transition: transform 0.3s ease-out, visibility 0.3s;
+        transform: translateX(100%);
+        /* Masque le menu à droite (hors de vue) */
+    }
+    .navbar ul.active {
+        visibility: visible;
+        /* Révèle le menu */
+        pointer-events: all;
+        /* Permet d'interagir avec le menu */
+        transform: translateX(0);
+        /* Révèle le menu */
+    }
+    .navbar ul li {
+        width: 100%;
+        margin: 10px 0;
+    }
+    .navbar ul li a:hover {
+        text-decoration: underline;
+    }
+}
+
+main {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    margin-top: 80px;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    /* espace entre les boutons */
+    margin-bottom: 30px;
+    /* espace avec le bouton voir plus */
+}
+
+.btn {
+    background-color: #ffffff;
+    border: 2px solid #e780aa;
+    color: #41C4D9;
+    border: none;
+    padding: 12px 24px;
+    font-size: 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.8s;
+    box-shadow: 0 0 10px transparent;
+    min-width: 150px;
+    align-items: center;
+    margin-top: 80px;
+}
+
+.btn:hover {
+    background-color: var(--text-color-btn);
+    box-shadow: 0 0 15px #ffffff;
+    border: 2px solid #ffffff;
+    transform: translateY(-2px);
+    color: #ffffff;
+    align-items: center;
+}
+
+h3 {
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+p {
+    font-size: 1.0em;
+    text-align: left;
+}
+
+.p2 {
+    margin-top: 20px;
+    font-size: 1.0em;
+}
+
+.p3 {
+    font-size: 1.0em;
+    text-align: left;
+    margin-left: 70px;
+}
+
+.p4 {
+    font-size: 0.7em;
+    text-align: left;
+}
+
+.intro {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+}
+
+footer {
+    margin-top: 60px;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+h1 {
+    font-size: 1.9em;
+    margin-bottom: 20px;
+    text-align: left;
+    margin-top: 60px;
+}
+
+.code {
+    color: #1c8000;
+    font-size: 1.2em;
+    text-align: left;
+}
+
+.code1 {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    text-align: left;
+    color: #1c8000;
+}
+
+.code3 {
+    margin-bottom: 20px;
+    text-align: left;
+    color: #1c8000;
+    margin-left: 25px;
+}
+
+.tips {
+    font-size: 1.1em;
+    text-align: left;
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+
+.tips-titre {
+    font-size: 1.5em;
+    text-align: left;
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+
+.code code {
+    color: #38761d;
+    /* Une nuance de vert pour le texte du code */
+    font-family: 'Consolas', 'Monaco', monospace;
+    /* Utiliser une police de code */
+    /* Espacement de ligne pour la lisibilité */
+    /* S'assure que le contenu prend tout l'espace */
+}
+
+.titre-m-g {
+    font-size: 1.0em;
+    margin-bottom: 20px;
+    text-align: left;
+    margin-top: 65px;
+}
+
+.quatre-balise {
+    font-size: 1.2em;
+    text-align: left;
+    color: #1c8000;
+}
+
+.quatre-explication {
+    margin-top: 0%;
+    margin-bottom: 45px;
+}
+
+li {
+    text-align: left;
+}
+
+.simple-separator {
+    height: 3px;
+    /* Épaisseur de la barre */
+    background-color: #4c4c4c60;
+    /* Couleur grise neutre et unie */
+    margin: 50px auto;
+    /* 50px de marge verticale, 'auto' pour centrer horizontalement */
+    width: 95%;
+    /* La barre prendra 70% de la largeur de la page */
+    max-width: 1300px;
+    /* Empêche la barre d'être trop large sur de très grands écrans */
+    min-width: 200px;
+    /* Empêche la barre d'être trop petite sur de petits écrans */
+    border-radius: 10px;
+    /* Un léger arrondi aux coins */
+    /* J'ai retiré toutes les propriétés liées au texte, dégradé, flexbox, et ombre prononcée. */
+}

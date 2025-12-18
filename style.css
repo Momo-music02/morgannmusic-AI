@@ -5,8 +5,8 @@
 
 @media (prefers-color-scheme: dark) {
      :root {
-        --bg1: #227282;
-        --bg2: #0e4951;
+        --bg1: #4c2c50;
+        --bg2: #822574;
     }
 }
 
@@ -201,7 +201,7 @@ h2 {
 }
 
 .btn {
-    background-color: #ffffff;
+    background-color: #000000;
     border: 2px solid #e780aa;
     color: #41C4D9;
     border: none;
@@ -218,8 +218,8 @@ h2 {
 
 .btn:hover {
     background-color: var(--text-color-btn);
-    box-shadow: 0 0 15px #ffffff;
-    border: 2px solid #ffffff;
+    box-shadow: 0 0 15px #000000a3;
+    border: 2px solid #000000;
     transform: translateY(-2px);
     color: #ffffff;
     align-items: center;

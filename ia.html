@@ -21,6 +21,11 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJd4S3uSChQOpQ7A3PShR+zVmhMImB2W6W75S8404fS3tD1/r1sJ8l9J6t7S8..." crossorigin="anonymous" referrerpolicy="no-referrer"
     />
     <meta name="theme-color" content="#ffffff">
@@ -75,8 +80,8 @@
             --header-title-color: #34495E;
             /* Bleu-gris foncé pour le titre */
             /* Rayons de bordure des bulles */
-            --bubble-radius-outer: 25px;
-            --bubble-radius-inner: 10px;
+            --bubble-radius-outer: 50px;
+            --bubble-radius-inner: 25px;
             /* Couleur de la flèche par défaut (inverse du bouton: noir) */
             --arrow-color-filter: invert(0);
             /* NOUVELLE VARIABLE: Couleur pour le bouton Stop */
@@ -175,7 +180,7 @@
             backdrop-filter: blur(var(--blur-intensity)) saturate(180%);
             -webkit-backdrop-filter: blur(var(--blur-intensity)) saturate(180%);
             border: 1px solid var(--glass-border);
-            border-radius: 40px;
+            border-radius: 60px;
             /* Ombre par défaut (PLUS FONCÉE et plus diffusée) */
             box-shadow: 0 30px 60px var(--glass-shadow), inset 0 0 30px var(--glass-inner-shadow);
             overflow: hidden;
@@ -802,6 +807,27 @@
             }
             /* Les boutons utilisent maintenant le Flexbox et n'ont plus besoin de positions absolues ajustées */
         }
+        
+        .glow-line {
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, #ff00cc, #3333ff, #00ffcc, #ffcc00, #ff00cc);
+            z-index: 9999;
+        }
+        
+        .glow-line::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: inherit;
+            filter: blur(15px);
+            opacity: 0.8;
+            pointer-events: none;
+        }
         /* ========================================================================= */
         /* === FIN DES MODIFICATIONS MAJEURES DANS LE BLOC <style> === */
         /* ========================================================================= */
@@ -809,6 +835,8 @@
 </head>
 
 <body>
+
+
     <div id="app-container">
         <div id="chat-header">
             <div id="header-controls">
@@ -861,6 +889,7 @@
             </div>
         </div>
     </div>
+
 
     <script>
         const chatContainer = document.getElementById('chat-container');

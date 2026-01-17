@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Morgann Music AI - Chat</title>
+    <title>Morgann Music AI ⎮ Chat</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta property="og:image" content="https://music.morgannmusic.uk/ban%20mmAI.jpg">
@@ -39,6 +39,7 @@
          :root {
             /* Couleurs de fond de la PAGE (dégradé vibrant pastel) */
             --body-bg-start: #70deff;
+            --color-sidebar: rgba(165, 243, 255, 0.509);
             /* Rose pastel léger */
             --body-bg-end: #2497a6;
             /* Cyan/Bleu aqua pastel */
@@ -105,7 +106,7 @@
                 /* Texte très clair */
                 --text-color-secondary: #95A5A6;
                 /* Gris clair-bleu */
-                --message-user-bg: #db34ba;
+                --message-user-bg: #8f247a;
                 /* Bleu plus profond */
                 --message-gemini-bg: #5b345e;
                 /* Bulle AI plus foncée (Même que le fond input) */
@@ -120,6 +121,8 @@
                 --send-button-text: #ffffff;
                 /* Fleche BLANCHE */
                 --header-title-color: #ECF0F1;
+
+                --color-sidebar: rgba(109, 56, 113, 0.509);
                 /* Couleur de la flèche pour le thème sombre (inverse du bouton: blanc) */
                 --arrow-color-filter: invert(1);
                 /* NOUVELLE VARIABLE: Couleur pour le bouton Stop (thème sombre) */
@@ -149,6 +152,9 @@
             animation: gradientBackground 20s ease infinite alternate;
         }
         
+
+
+        
         @keyframes gradientBackground {
             0% {
                 background-position: 0% 50%;
@@ -177,8 +183,7 @@
             display: flex;
             flex-direction: column;
             background: var(--glass-bg);
-            backdrop-filter: blur(var(--blur-intensity)) saturate(180%);
-            -webkit-backdrop-filter: blur(var(--blur-intensity)) saturate(180%);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: 60px;
             /* Ombre par défaut (PLUS FONCÉE et plus diffusée) */
@@ -824,10 +829,107 @@
             width: 100%;
             height: 20px;
             background: inherit;
-            filter: blur(15px);
+            -webkit-filter: blur(15px);
             opacity: 0.8;
             pointer-events: none;
         }
+
+        /* ===============================
+   SIDEBAR CHATGPT STYLE
+================================ */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100dvh;
+    background: var(--color-sidebar);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 25px;
+    z-index: 2000;
+    transform: translateX(-100%);
+    transition: transform 0.35s ease;
+    overflow-y: auto;
+
+    border-radius: 0 30px 30px 0;
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+.logo {
+    color: var(--text-color-primary);
+    margin-bottom: 20px;
+    font-size: 1.4em;
+}
+
+.new-chat-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 50px;
+    border: 1px solid var(--text-color-primary);
+    cursor: pointer;
+    background: var(--message-user-bg);
+    color: var(--text-color-primary);
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+#history-list button {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--text-color-primary);
+    text-align: left;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+#history-list button:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* ===============================
+   MENU BUTTON
+================================ */
+
+.menu-toggle {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 3000;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: none;
+    background:var(--color-sidebar);
+    color: var(--text-color-primary);
+    font-size: 20px;
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* ===============================
+   CHAT PLEIN ÉCRAN
+================================ */
+
+
+
+/* ton chat */
+#chatContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    padding: 70px 15px 90px;
+    overflow-y: auto;
+}
+
+
         /* ========================================================================= */
         /* === FIN DES MODIFICATIONS MAJEURES DANS LE BLOC <style> === */
         /* ========================================================================= */
@@ -836,13 +938,35 @@
 
 <body>
 
+    <!-- ☰ Menu mobile -->
+<button id="menu-toggle" class="menu-toggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+<!-- 📚 Sidebar -->
+<nav class="sidebar closed">
+    <h2 class="logo">💬 Discussions</h2>
+
+    <button class="new-chat-btn" onclick="window.location.href='index.html'">
+       Accueil
+    </button>
+
+    <button class="new-chat-btn" onclick="newConversation()">
+        ➕ Nouvelle discussion
+    </button>
+
+    <div id="history-list"></div>
+</nav>
+
+
+    
+
 
     <div id="app-container">
         <div id="chat-header">
             <div id="header-controls">
-                <button id="home-button" class="header-button" title="Aller à l'accueil" onclick="window.location.href='index.html'">
-                    <img src="https://images.freeimages.com/fic/images/icons/1580/devine_icons_part_2/512/home.png" alt="Accueil" />
-                </button>
+                  
+                
 
                 <button id="stop-button">
                     <i class="fas fa-stop-circle"></i> Stop
@@ -1221,27 +1345,111 @@
         });
 
         // --- Fonctions de Parallaxe (Inchangées) ---
-        document.addEventListener('mousemove', (e) => {
-            if (window.innerWidth <= 768) return; // Désactiver sur mobile
-
-            const rect = appContainer.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-
-            const x = e.clientX - centerX;
-            const y = e.clientY - centerY;
-
-            const rotateX = (-y / rect.height) * 20; // Max 20 degrés
-            const rotateY = (x / rect.width) * 20; // Max 20 degrés
-
-            appContainer.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-        });
+       
 
         document.addEventListener('mouseleave', () => {
             if (window.innerWidth <= 768) return;
             appContainer.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
         });
     </script>
+
+    <script>
+let conversations = JSON.parse(localStorage.getItem("mmai_conversations") || "[]");
+let currentConversation = null;
+
+const sidebar = document.querySelector(".sidebar");
+const historyList = document.getElementById("history-list");
+
+document.getElementById("menu-toggle").onclick = () => {
+    sidebar.classList.toggle("open");
+};
+
+/* ===============================
+   NOUVELLE DISCUSSION
+================================ */
+
+function newConversation() {
+    if (chatContainer.innerHTML.trim() !== "") {
+        saveConversation();
+    }
+
+    chatContainer.innerHTML = "";
+    currentConversation = {
+        id: Date.now(),
+        title: "Nouvelle discussion",
+        messages: []
+    };
+
+    conversations.unshift(currentConversation);
+    saveAll();
+    renderHistory();
+}
+
+/* ===============================
+   SAUVEGARDE
+================================ */
+
+function saveConversation() {
+    if (!currentConversation) return;
+
+    currentConversation.messages = [...chatContainer.children].map(msg => ({
+        html: msg.outerHTML
+    }));
+
+    const firstUser = chatContainer.querySelector(".user");
+    if (firstUser) {
+        currentConversation.title =
+            firstUser.textContent.slice(0, 30) + "...";
+    }
+
+    saveAll();
+}
+
+function saveAll() {
+    localStorage.setItem("mmai_conversations", JSON.stringify(conversations));
+}
+
+/* ===============================
+   AFFICHAGE HISTORIQUE
+================================ */
+
+function renderHistory() {
+    historyList.innerHTML = "";
+
+    conversations.forEach(conv => {
+        const btn = document.createElement("button");
+        btn.textContent = conv.title;
+        btn.onclick = () => loadConversation(conv.id);
+        historyList.appendChild(btn);
+    });
+}
+
+/* ===============================
+   CHARGEMENT
+================================ */
+
+function loadConversation(id) {
+    const conv = conversations.find(c => c.id === id);
+    if (!conv) return;
+
+    chatContainer.innerHTML = "";
+    conv.messages.forEach(m => {
+        chatContainer.insertAdjacentHTML("beforeend", m.html);
+    });
+
+    currentConversation = conv;
+    sidebar.classList.remove("open");
+}
+
+
+
+/* ===============================
+   INIT
+================================ */
+
+renderHistory();
+</script>
+
 </body>
 
 </html>
